@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -33,9 +34,8 @@ import com.wsk.tool.Pornographic;*/
  * Created by wsk1103 on 2017/5/9.
  */
 @Controller
-@Slf4j
 public class UserController {
-
+    private static final Logger log = LoggerFactory.getLogger(UserController.class);
     @Resource
     private UserInformationService userInformationService;
     @Resource
@@ -598,8 +598,10 @@ public class UserController {
                 return "redirect:publish_product.do?error=请插入图片";
             }
             String random;
-            String path = "D:\\", save = "";
-            random = "image\\" + StringUtils.getInstance().getRandomChar() + System.currentTimeMillis() + ".jpg";
+            //String path = "D:\\", save = "";
+            String path = "/root", save = "";
+            //random = "\\image" + StringUtils.getInstance().getRandomChar() + System.currentTimeMillis() + ".jpg";
+            random = "/image" + StringUtils.getInstance().getRandomChar() + System.currentTimeMillis() + ".jpg";
             StringBuilder thumbnails = new StringBuilder();
             thumbnails.append(path);
             thumbnails.append("image/thumbnails/");
@@ -609,7 +611,11 @@ public class UserController {
 //        String fileName = "\\" + random + ".jpg";
             File file = new File(path, random);
             if (!file.exists()) {
-                file.mkdir();
+                try {
+                    file.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
             try {
                 image.transferTo(file);
@@ -626,7 +632,11 @@ public class UserController {
             //创建缩略图文件夹
             File thumbnailsFile = new File(thumbnails.toString());
             if (!thumbnailsFile.exists()) {
-                thumbnailsFile.mkdir();
+                try {
+                    thumbnailsFile.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
             if (StringUtils.getInstance().thumbnails(path + random, thumbnails.toString())) {
                 save = "/images/thumbnails/" + wsk.toString();
@@ -634,6 +644,7 @@ public class UserController {
                 return "redirect:publish_product.do?error=生成缩略图失败";
             }
             //begin insert the shopInformation to the MySQL
+            log.info("商品数量：{}");
             ShopInformation shopInformation = new ShopInformation();
             shopInformation.setName(name);
             shopInformation.setLevel(level);
@@ -872,10 +883,13 @@ public class UserController {
     private String getSort(int sort) {
         StringBuilder sb = new StringBuilder();
         Specific specific = selectSpecificBySort(sort);
+        log.info("查出来的specific："+specific);
         int cid = specific.getCid();
         Classification classification = selectClassificationByCid(cid);
+        log.info("查出来的Classification："+classification);
         int aid = classification.getAid();
         AllKinds allKinds = selectAllKindsByAid(aid);
+        log.info("查出来的Allkinds："+allKinds);
         sb.append(allKinds.getName());
         sb.append("-");
         sb.append(classification.getName());
@@ -1040,7 +1054,9 @@ public class UserController {
 
     //判断该手机号码及其密码是否一一对应
     private boolean getId(String phone, String password, HttpServletRequest request) {
+        //根据电话号码找到Uid
         int uid = userInformationService.selectIdByPhone(phone);
+        log.info("找到Uid"+uid);
         if (uid == 0 || StringUtils.getInstance().isNullOrEmpty(uid)) {
             return false;
         }
@@ -1049,7 +1065,9 @@ public class UserController {
             return false;
         }
         password = StringUtils.getInstance().getMD5(password);
+        log.info("用户密码password："+password);
         String password2 = userPasswordService.selectByUid(userInformation.getId()).getPassword();
+        log.info("用户密码password2："+password2);
         if (!password.equals(password2)) {
             return false;
         }
@@ -1062,16 +1080,19 @@ public class UserController {
 
     //获取最详细的分类，第三层
     private Specific selectSpecificBySort(int sort) {
+        log.info("第三层sort："+sort);
         return specificeService.selectByPrimaryKey(sort);
     }
 
     //获得第二层分类
     private Classification selectClassificationByCid(int cid) {
+        log.info("第二层cID:"+cid);
         return classificationService.selectByPrimaryKey(cid);
     }
 
     //获得第一层分类
     private AllKinds selectAllKindsByAid(int aid) {
+        log.info("第一层aid："+aid);
         return allKindsService.selectByPrimaryKey(aid);
     }
 

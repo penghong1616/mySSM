@@ -3,14 +3,10 @@ package com.wsk.response;
 import com.wsk.handle.GlobalExceptionHandler;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
-/**
- * @author wsk1103
- * @date 2019/5/8
- * @description 描述
- */
 @Data
 public class BaseResponse {
+    public static BaseResponse NOT_LOGIN=new BaseResponse(-1,"未登录");
+    public static  BaseResponse REPLEAT_SECKILL=new BaseResponse(-1,"不能重复秒杀");
     private int result;
 
     private String msg;

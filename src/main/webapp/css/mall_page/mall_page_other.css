@@ -180,14 +180,9 @@ div.pagination_div {
 .pagination_div ul li {
     float: left;
 }
-
-.pagination_div .pagination_lt, .pagination_div .pagination_gt {
-    float: left;
-}
-
-.pagination_div .pagination_lt, .pagination_div ul li,
-.pagination_div .pagination_gt {
-    width: 6%;
+ .pagination_div ul li
+{
+    width: 24%;
     height: 36px;
     background-color: white;
     margin-left: 4%;

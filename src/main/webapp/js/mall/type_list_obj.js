@@ -5,31 +5,22 @@ var pingguo = createObject(1, '苹果');
 var sanxing = createObject(2, '三星');
 var xiaomi = createObject(3, '小米');
 var huawei = createObject(4, '华为');
-var zhongxing = createObject(5, '中兴');
-var lianxiang = createObject(6, '联想');
-var meizhu = createObject(7, '魅族');
-var qitas = createObject(8, '其他');
-var erjis = createObject(9, '耳机');
 var shouji = new Object();
 shouji.name = '手机';
-shouji.content = [pingguo, sanxing, xiaomi, huawei, zhongxing, lianxiang, meizhu, qitas, erjis];
-var putongxiangji = createObject(10, '普通相机');
-var danfan = createObject(11, '单反');
-var qitax = createObject(12, '其他');
+shouji.content = [pingguo, sanxing, xiaomi,huawei ];
+var putongxiangji = createObject(4, '普通相机');
+var danfan = createObject(5, '单反');
+var qitax = createObject(6, '其他');
 var content = [putongxiangji, danfan, qitax];
 var xiangji = createType('相机', content);
 var bijiben = createObject(13, '笔记本');
 var pingban = createObject(14, '平板电脑');
-var taishi = createObject(15, '台式电脑');
-var xianshiqi = createObject(16, '显示器');
-var shubiao = createObject(17, '鼠标');
-var yingpan = createObject(18, '硬盘');
-var upan = createObject(19, 'U盘');
-var yidongyingpan = createObject(20, '移动硬盘');
-var qitad = createObject(21, '其他');
-var content1 = [bijiben, pingban, taishi, xianshiqi, shubiao,
-    yingpan, upan, yidongyingpan, qitad];
+var content1 = [bijiben, pingban];
 var diannao = createType('电脑', content1);
+/**
+ *
+ *
+
 var xiyiji = createObject(22, '洗衣机');
 var yinshuiji = createObject(23, '饮水机');
 var chuifengji = createObject(24, '吹风机');
@@ -135,6 +126,8 @@ var qitaA = createType('其他', content15);
 var type_list = [[shouji, xiangji, diannao], [jiadian, yingyin],
     [nvzhuang, nanzhuang, nvxie, nanxie, xiangbao, shoubiao], [qicai, daibu]
     , [xiuyang, zhuanye, wenju], [qitaA]];
+ */
+var type_list = [[shouji, xiangji, diannao]];
 function createObject(id, name) {
     var temp = new Object();
     temp.id = id;

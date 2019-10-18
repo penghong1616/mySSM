@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wsk.dao.SecKillGoodMapper" >
+    <resultMap id="BaseResultMap" type="com.wsk.bean.SecKillGoodBean" >
+        <id property="id"  column="id" jdbcType="INTEGER"></id>
+        <result property="sId" column="sid" jdbcType="INTEGER" />
+        <result  property="count" column=" count" jdbcType="INTEGER"/>
+        <result  property="startDate" column="start_date" jdbcType="TIMESTAMP"/>
+        <result  property="endDate" column="end_date" jdbcType="TIMESTAMP"/>
+        <result  property="display" column="display" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="level" column="level" jdbcType="INTEGER"/>
+        <result property="price" column="price" jdbcType="DECIMAL"/>
+        <result property="sort" column="sort" jdbcType="INTEGER"/>
+        <result property="uid" column="uid" jdbcType="INTEGER"/>
+        <result property="image" column="image" jdbcType="VARCHAR"/>
+
+    </resultMap>
+
+    <sql id="all" >
+        sec.id id, sid,sec.count count,start_date,end_date,sec.display display,name,level,price,sort,uid,image
+    </sql>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select <include refid="all"></include>
+        from
+        seckill sec,shopinformation shop
+        where sec.sid=shop.id and  sec.display!=0
+    </select>
+    <select id="selectSecKillById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select <include refid="all"></include>
+        from
+        seckill sec,shopinformation shop
+        where  sec.sid=shop.id and sec.display!=0 and  sec.id=#{id}
+    </select>
+    <insert id="insert" parameterType="com.wsk.pojo.SecKillCar">
+        insert into seckillcar(modified,sec_id,uid) values(#{modified},#{secId},#{uId})
+    </insert>
+    <select id="selectGoodById" parameterType="java.lang.Integer" resultType="int">
+        select sid from seckill where id=#{id};
+    </select>
+
+</mapper>

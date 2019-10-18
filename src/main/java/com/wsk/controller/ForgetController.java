@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by wsk1103 on 2017/5/9.
+ *
  */
 @RestController
 public class ForgetController {
@@ -41,14 +41,13 @@ public class ForgetController {
             return map;
         }
         //验证码错误
-        if (!checkCodePhone(code, request)) {
-            map.put("result", 0);
-            return map;
-        }
+//        if (!checkCodePhone(code, request)) {
+//            map.put("result", 0);
+//            return map;
+//        }
         map.put("result", 1);
         return map;
     }
-
     //更新密码
     @RequestMapping("updatePassword.do")
     public BaseResponse updatePassword(HttpServletRequest request, Model model,

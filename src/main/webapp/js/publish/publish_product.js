@@ -40,7 +40,7 @@ $(function () {
         return url ;
     }
     $('.choose_first_type').change(function () {
-        var getSelect = $(this).children('option:selected').attr("id");
+        var getSelect = $(this).children('option:selected').attr("id");//获取id值
         switch (getSelect) {
             case "type_1":
                 curFirst = 0;

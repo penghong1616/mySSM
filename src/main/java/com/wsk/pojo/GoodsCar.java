@@ -63,4 +63,16 @@ public class GoodsCar implements Serializable {
     public void setUid(Integer uid) {
         this.uid = uid;
     }
+
+    @Override
+    public String toString() {
+        return "GoodsCar{" +
+                "id=" + id +
+                ", modified=" + modified +
+                ", sid=" + sid +
+                ", uid=" + uid +
+                ", quantity=" + quantity +
+                ", display=" + display +
+                '}';
+    }
 }

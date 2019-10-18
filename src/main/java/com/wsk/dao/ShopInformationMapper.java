@@ -1,6 +1,7 @@
 package com.wsk.dao;
 
 import com.wsk.pojo.ShopInformation;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public interface ShopInformationMapper {
 
     List<ShopInformation> selectOffShelf(Integer uid, Integer start);
 
-    int getCountsOffShelf(Integer uid);
+    int getCountsOfShelf(Integer uid);
 
     int getCounts();
 
@@ -38,4 +39,6 @@ public interface ShopInformationMapper {
     //选择用户的发布
     @Select("select * from shopinformation where uid=#{uid} and display=1 order by id desc limit 12")
     List<ShopInformation> selectUserReleaseByUid(int uid);
+
+    List<ShopInformation> selectShopInformationByCid(@Param("cId") int cId);
 }

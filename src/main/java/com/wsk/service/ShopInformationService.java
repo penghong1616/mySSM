@@ -36,4 +36,5 @@ public interface ShopInformationService {
     List<ShopInformation> selectBySort(int sort);
 
     List<ShopInformation> selectUserReleaseByUid(int uid);
+    List<ShopInformation> selectShopInformationByCid(int cid);
 }

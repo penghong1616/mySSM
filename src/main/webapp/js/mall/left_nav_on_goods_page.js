@@ -3,6 +3,8 @@
  */
 $(function () {
     insertShopCar();
+    var sortCid=0;
+    selectByCounts(0,0);
     var type_list = getTypeList();
     $(window).scroll(function () {
         var temp = $(this).scrollTop();
@@ -47,46 +49,7 @@ $(function () {
             //  点击事件
             $('.type_goods_list a.shop_sort').click(function () {
                 var wsk = $(this).attr('id');
-                var $all_product = $('.all_product');
-                $.ajax({
-                    url: 'selectBySort.do',
-                    type: 'post',
-                    dataType: 'JSON',
-                    data: {sort: wsk},
-                    success: function (data) {
-                        $all_product.html('');
-                        if (data.length === 0) {
-                            $all_product.append("<div class='product_content_div'>" +
-                                "<figure class='detail_product'>" +
-                                "<input type='hidden' value= ''/>" +
-                                "<img src='' title='暂时没有该分类的商品' />" +
-                                "<span class='detail_product_name'></span><br/>" +
-                                "<span class='detail_product_cost'></span><br/>" +
-                                "<span class='detail_buy product_1'>加入购物车</span>" +
-                                "</figure>" +
-                                "</div>");
-                        }
-                        for (var i = 0; i < data.length; i++) {
-                            $all_product.append("<div class='product_content_div'>" +
-                                "<div class='detail_product'>" +
-                                "<input type='hidden' value=" + data[i].id + " '/>" +
-                                "<div class='product_img_div'><img class='show_img' src='" + data[i].image + "' title=" + data.name + "'/></div>" +
-                                "<p class='show_tip'>"+data[i].remark+"</p>"+
-                                "<span class='detail_product_name' value='"+data[i].id+"'>" + data[i].name + "</span><br/>" +
-                                "<span class='detail_product_cost'>￥" + data[i].price + "</span><br/>" +
-                                "<span class='detail_buy product_1' value='"+data[i].id+"'>加入购物车</span>" +
-                                "</div>" +
-                                "</div>");
-                        }
-                        //进入查看商品的详情,通过id
-                        $('.detail_product_name').click(function () {
-                            var id = $(this).attr('value');
-                            window.location.href='/selectById.do?id='+id;
-                        });
-                        insertShopCar();
-                    }
-                });
-                // alert(wsk);
+                selectByCounts(wsk,0);
 
             })
         }
@@ -96,127 +59,6 @@ $(function () {
     $('header').click(function () {
         hideParticular();
     });
-    //new
-    bindClick();
-    //  直接点击页数
-    function bindClick() {
-        $('.pagination_div ul li').click(function () {
-            var cur = $(".pagination_div ul li.current_page").children("a").html();
-            $(".pagination_div ul li.current_page").removeClass("current_page");
-            $(this).addClass("current_page");
-            //  点击的页数
-            var which_click = $(this).children("a").html();
-            //  在if里面处理
-            if (cur !== which_click) {
-                selectByCounts(which_click);
-            }
-        });
-    }
-
-    //  上一页
-    $('.pagination_lt').click(function () {
-        var current = $('.pagination_div ul li.current_page');
-        var temp = current.children("a").html();
-        //  已经达到最左边，再点无反应
-        if (temp == 1) {
-            return false;
-        }
-        updateCurrent(current, 1, temp);
-        //      这个就是当前的页数
-        var current_page = $('.pagination_div ul li.current_page').children("a").html();
-        selectByCounts(current_page);
-    });
-    //下一页
-    $('.pagination_gt').click(function () {
-        var current = $('.pagination_div ul li.current_page');
-        var temp = current.children("a").html();
-        // 到达最右边
-        if (temp == 99) {
-            return false;
-        }
-        updateCurrent(current, 2, temp);
-        var current_page = $('.pagination_div ul li.current_page').children("a").html();
-        //      通过这个current_page 来获取数据
-        selectByCounts(current_page);
-
-    });
-
-    // temp 当前的值（1,2,3,4...）
-    function updateCurrent(current, to, temp) {
-        //    1左，2右
-        var num = current.nextAll().length;
-        if (to == 1) {
-            if (num == 4) {
-                current.siblings(":last").remove();
-                current.before("<li><a>" + (temp - 1) + "</a></li>");
-            }
-            if (num == 3) {
-                if (!(temp - 2 < 1)) {
-                    current.siblings(":last").remove();
-                    current.siblings(":first").before("<li><a>" + (temp - 2) + "</a></li>");
-                }
-            }
-            current.removeClass("current_page");
-            current.prev().addClass("current_page");
-        } else {
-            if (num == 0) {
-                current.siblings(":first").remove();
-                current.after("<li><a>" + (parseInt(temp) + 1) + "</a></li>");
-            }
-            if (num == 1) {
-                current.siblings(":first").remove();
-                current.siblings(":last").after("<li><a>" + (parseInt(temp) + 2) + "</a></li>");
-            }
-            current.removeClass("current_page");
-            current.next().addClass("current_page");
-        }
-        bindClick();
-    }
-    function selectByCounts(currentCounts) {
-        var $all_product = $('.all_product');
-        $.ajax({
-            url: 'selectByCounts.do',
-            type: 'post',
-            dataType: 'JSON',
-            data: {counts: currentCounts},
-            success: function (data) {
-                $all_product.html('');
-                if (data.length === 0) {
-                    $all_product.append("<div class='product_content_div'>" +
-                        "<div class='detail_product'>" +
-                        "<input type='hidden' value= ''/>" +
-                        "<div class='product_img_div'><img src='' title='暂时没有该分类的商品' /></div>" +
-                        "<span class='detail_product_name'></span><br/>" +
-                        "<span class='detail_product_cost'></span><br/>" +
-                        "<span class='detail_buy product_1'>加入购物车</span>" +
-                        "</div>" +
-                        "</div>");
-                }
-                for (var i = 0; i < data.length; i++) {
-                    $all_product.append("<div class='product_content_div'>" +
-                        "<div class='detail_product'>" +
-                        "<input type='hidden' value=" + data[i].id + " '/>" +
-                        "<div class='product_img_div'>" +
-                        "<img class='show_img' src='" + data[i].image + "' title=" + data.name + "'/>" +
-                        "</div>" +
-                        "<p class='show_tip'>"+data[i].remark+"</p>"+
-                        "<span class='detail_product_name' value='"+data[i].id+"'>" + data[i].name + "</span><br/>" +
-                        "<span class='detail_product_cost'>￥" + data[i].price + "</span><br/>" +
-                        "<span class='detail_buy product_1' value='"+data[i].id+"'>加入购物车</span>" +
-                        "</div>" +
-                        "</div>");
-                }
-                //进入查看商品的详情,通过id
-                $('.detail_product_name').click(function () {
-                    var id = $(this).attr('value');
-                    window.location.href='/selectById.do?id='+id;
-                });
-                insertShopCar();
-            }
-        });
-
-    }
-    //进入查看商品的详情,通过id
     $('.detail_product_name').click(function () {
         var id = $(this).attr('value');
         window.location.href='/selectById.do?id='+id;
@@ -244,7 +86,75 @@ $(function () {
             })
         });
     }
+    function selectByCounts(cId,pageNum) {
+        var $all_product = $('.all_product');
+        var page_ul=$('.page_ul');<!--变量分页导航栏-->
+        $.ajax({
+            url: 'selectByPageNum.do',
+            type: 'post',
+            dataType: 'JSON',
+            data: {cId:cId,pageNum:pageNum},
+            success: function (pageInfo) {
+                var data=pageInfo.list;
+                $all_product.html('');
+                page_ul.html('');
+                if (data.length === 0) {
+                    $all_product.append("<div class='product_content_div' >" +
+                        "<div class='detail_product'>" +
+                        "<input type='hidden' value= ''/>" +
+                        "<div class='product_img_div'><img src='' title='暂时没有该分类的商品' /></div>" +
+                        "<span class='detail_product_name'></span><br/>" +
+                        "<span class='detail_product_cost'></span><br/>" +
+                        "<span class='detail_buy product_1'>加入购物车</span>" +
+                        "</div>" +
+                        "</div>");
+                }
+                for (var i = 0; i < data.length; i++) {
+                    $all_product.append("<div class='product_content_div'>" +
+                        "<div class='detail_product'>" +
+                        "<input type='hidden' value=" + data[i].id + " '/>" +
+                        "<div class='product_img_div'><img class='show_img' src='" + data[i].image + "' title=" + data.name + "'/></div>" +
+                        "<p class='show_tip'>"+data[i].remark+"</p>"+
+                        "<span class='detail_product_name' value='"+data[i].id+"'>" + data[i].name + "</span><br/>" +
+                        "<span class='detail_product_cost'>￥" + data[i].price + "</span><br/>" +
+                        "<span class='detail_buy product_1' value='"+data[i].id+"'>加入购物车</span>" +
+                        "</div>" +
+                        "</div>");
+                }
+                <!--设置循环导航页-->
+                if(pageInfo.hasPreviousPage) {
+                    page_ul.append("<li class='page'  id='"+pageInfo.prePage+"'>上一页</li>");
+                }else {
+                    page_ul.append("<li>没有上一页</a></li>");
+                }
+                page_ul.append("<li class=\"current_page\"><a >"+pageInfo.pageNum+"</a></li>");
+                if(pageInfo.hasNextPage){
+                    page_ul.append("<li class='page' id='"+pageInfo.nextPage+"'>下一页</li>");
+                }else{
+                    page_ul.append("<li>没有下一页</li>");
+                }
 
+                //进入查看商品的详情,通过id
+                $('.detail_product_name').click(function () {
+                    var id = $(this).attr('value');
+                    window.location.href='/selectById.do?id='+id;
+                });
+                //为分类标签和分页栏添加点击事件
+                $('shop_sort').click(function () {
+                    var wsk = $(this).attr('id');
+                    sortCid=wsk;
+                    selectByCounts(wsk,0);
+                });
+                $('.page ').click(function (){
+                    var pageNum=$(this).attr('id');
+                    selectByCounts(sortCid,pageNum);
+
+                } );
+                insertShopCar();
+            }
+        });
+
+    }
 });
 function hideParticular() {
     if ($('.particular_type_div').is(":visible")) {

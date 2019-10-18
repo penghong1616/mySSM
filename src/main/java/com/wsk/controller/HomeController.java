@@ -1,9 +1,12 @@
 package com.wsk.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.wsk.bean.ShopInformationBean;
 import com.wsk.pojo.*;
 import com.wsk.service.*;
 import com.wsk.tool.StringUtils;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by wsk1103 on 2017/5/11.
+ *
  */
 @Controller
 public class HomeController {
@@ -77,7 +80,9 @@ public class HomeController {
 
     //进入商城
     @RequestMapping(value = "/mall_page.do")
-    public String mallPage(HttpServletRequest request, Model model) {
+    public String mallPage(HttpServletRequest request, Model model,
+                           @RequestParam(value = "cId",required = false,defaultValue = "0") String cId,
+                           @RequestParam(value = "pageNum",defaultValue = "1",required = false) String pageNum) {
         UserInformation userInformation = (UserInformation) request.getSession().getAttribute("userInformation");
         if (StringUtils.getInstance().isNullOrEmpty(userInformation)) {
             userInformation = new UserInformation();
@@ -86,7 +91,11 @@ public class HomeController {
             model.addAttribute("userInformation", userInformation);
         }
         try {
-            List<ShopInformation> shopInformations = selectTen(1, 12);
+            //pageHelper分页
+            PageHelper.offsetPage(Integer.parseInt(pageNum),3);//从第一条数据开始，每页3条
+            PageInfo<ShopInformation> pageInfo=new PageInfo(shopInformationService.selectShopInformationByCid(Integer.parseInt(cId)));
+            List<ShopInformation>shopInformations= pageInfo.getList();
+            System.out.println("分页查询出List的大小："+shopInformations.size());
             List<ShopInformationBean> list = new ArrayList<>();
             int counts = getShopCounts();
             model.addAttribute("shopInformationCounts", counts);

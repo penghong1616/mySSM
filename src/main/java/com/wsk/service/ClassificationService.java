@@ -1,5 +1,6 @@
 package com.wsk.service;
 
+import com.wsk.bean.SecKillGoodBean;
 import com.wsk.pojo.Classification;
 
 import java.util.List;

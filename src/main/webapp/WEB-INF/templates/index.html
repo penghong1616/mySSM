@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>C2C二手交易平台</title>
+    <title>LUT二手交易平台</title>
     <link rel="icon" href="/img/page_icon.png"/>
     <link href="/css/home_page/home_page_circle.css" rel="stylesheet"/>
     <link href="/css/home_page/header_and_nav.css" rel="stylesheet"/>
@@ -11,7 +11,7 @@
     <script src="/js/home/home_page_circle.js"></script>
     <script src="/js/home/header_model_js.js"></script>
 </head>
-<body>
+<br></br>
 <!--整体结构很明确，就是轮播图的位置用了绝对位置感觉很不好，
 然后接下来那些都用了绝对位置，很尴尬-->
 <header th:include="header :: copy"></header>
@@ -83,34 +83,9 @@
         <p class="show_tip" th:text="${o.remark}"></p>
         <input class="product_id" type="hidden" th:value="${o.id}"/>
         <a class="product_name" th:href="'/selectById.do?id='+${o.id}" th:text="${o.name}" th:title="${o.name}">wsk1103</a><br/>
-        <!--<span class="product_name" th:text="${o.name}" th:value="${o.id}">Big block Lether Bag</span><br/>-->
-        <span class="product_cost" th:text="'￥'+${o.price}+'元'">$350.00</span><br/><br/>
+        <span class="product_cost" th:text="'￥'+${o.price}+'元'">99</span><br/><br/>
         <span class="buy product_1" th:value="${o.id}">加入购物车</span>
     </figure>
-    <!--<div class="product">-->
-        <!--<img src="img/home/feature_prodects/cont2.jpg" width="100%"/>-->
-        <!--<span class="product_name">Big block Lether Bag</span>-->
-        <!--<span class="product_cost">$350.00</span><br/><br/>-->
-        <!--<span class="buy product_2">Buy</span>-->
-    <!--</div>-->
-    <!--<div class="product">-->
-        <!--<img src="img/home/feature_prodects/cont4.jpg" width="100%"/>-->
-        <!--<span class="product_name">Big block Lether Bag</span>-->
-        <!--<span class="product_cost">$350.00</span><br/><br/>-->
-        <!--<span class="buy product_3">Buy</span>-->
-    <!--</div>-->
-    <!--<div class="product">-->
-        <!--<img src="img/home/feature_prodects/cont4.jpg" width="100%"/>-->
-        <!--<span class="product_name">Big block Lether Bag<br/></span>-->
-        <!--<span class="product_cost">$350.00</span><br/><br/>-->
-        <!--<span class="buy product_4">Buy</span>-->
-    <!--</div>-->
-    <!--<div class="product">-->
-        <!--<img src="img/home/feature_prodects/cont1.jpg" width="100%"/>-->
-        <!--<span class="product_name">Big block Lether Bag</span>-->
-        <!--<span class="product_cost">$350.00</span><br/><br/>-->
-        <!--<span class="buy product_5">Buy</span>-->
-    <!--</div>-->
 </div>
 <div class="home_page_info">
     <div class="bottom_info">
@@ -136,7 +111,7 @@
         </p>
     </div>
 </div>
-<footer>
+<footer style=" width: 100%; left: 0px; top: 213%;" >
     <p>Copyright © 2017-2200.Company name All rights reserved.<a href="/"></a></p>
 </footer>
 </body>

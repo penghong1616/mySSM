@@ -59,7 +59,7 @@ public class ShopInformationServiceImpl implements ShopInformationService{
 
     @Override
     public int getCountsOffShelf(int uid) {
-        return shopInformationMapper.getCountsOffShelf(uid);
+        return shopInformationMapper.getCountsOfShelf(uid);
     }
 
     @Override
@@ -85,5 +85,10 @@ public class ShopInformationServiceImpl implements ShopInformationService{
     @Override
     public List<ShopInformation> selectUserReleaseByUid(int uid) {
         return shopInformationMapper.selectUserReleaseByUid(uid);
+    }
+
+    @Override
+    public List<ShopInformation> selectShopInformationByCid(int cId) {
+        return shopInformationMapper.selectShopInformationByCid(cId);
     }
 }

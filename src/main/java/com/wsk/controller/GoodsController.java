@@ -1,5 +1,7 @@
 package com.wsk.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.wsk.bean.ShopContextBean;
 import com.wsk.bean.ShopInformationBean;
 import com.wsk.bean.UserWantBean;
@@ -22,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by wsk1103 on 2017/5/14.
+ *
  */
 @Controller
 public class GoodsController {
@@ -183,24 +185,27 @@ public class GoodsController {
     @RequestMapping(value = "/findShopById.do")
     @ResponseBody
     public ShopInformation findShopById(@RequestParam int id) {
+
         return shopInformationService.selectByPrimaryKey(id);
     }
 
     //通过分类选择商品
-    @RequestMapping(value = "/selectBySort.do")
+    @RequestMapping(value = "/selectByCid.do")
     @ResponseBody
-    public List<ShopInformation> selectBySort(@RequestParam int sort) {
-        return shopInformationService.selectBySort(sort);
+    public List<ShopInformation> selectByCid(@RequestParam(value = "cId") String cId) {
+        PageHelper.offsetPage(0,3);
+        return shopInformationService.selectShopInformationByCid(Integer.parseInt(cId));
     }
 
     //分页查询
-    @RequestMapping(value = "/selectByCounts.do")
+    @RequestMapping(value = "/selectByPageNum.do")
     @ResponseBody
-    public List<ShopInformation> selectByCounts(@RequestParam int counts) {
-        Map<String, Integer> map = new HashMap<>();
-        map.put("start", (counts - 1) * 12);
-        map.put("end", 12);
-        return shopInformationService.selectTen(map);
+    public PageInfo<ShopInformation> selectByPageNum(@RequestParam(value = "cId",required = false) String cId,@RequestParam(value = "pageNum",required = false) String pageNum) {
+        System.out.println("分页查询："+"cId:"+cId+"pageNum:"+pageNum);
+        PageHelper.offsetPage(Integer.parseInt(pageNum),3);
+        PageInfo<ShopInformation> pageInfo=new PageInfo<>(shopInformationService.selectShopInformationByCid(Integer.parseInt(cId)));
+        System.out.println("分页查询pageInfo："+pageInfo.toString());
+        return pageInfo;
     }
 //    //通过id查看商品详情
 //    @RequestMapping(value = "/showShop")
