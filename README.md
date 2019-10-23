@@ -1,3 +1,4 @@
+原项目：https://github.com/wsk1103/mySSM
 **新增功能**<br>
 1.调用Alipay，完成支付功能<br>
 2.开启Mybats二级缓存，使用Redis<br>
