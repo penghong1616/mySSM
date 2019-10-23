@@ -44,7 +44,7 @@ public class GoodsController {
     private UserWantService userWantService;
 
     //进入到发布商品页面
-    @RequestMapping(value = "/publish_product.do", method = RequestMethod.GET)
+    @RequestMapping(value = "publish_product.do", method = RequestMethod.GET)
     public String publish(HttpServletRequest request, Model model) {
         //先判断用户有没有登录
         UserInformation userInformation = (UserInformation) request.getSession().getAttribute("userInformation");
@@ -66,7 +66,7 @@ public class GoodsController {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/login.do";
+            return "redirect:login.do";
         }
         String goodsToken = TokenProccessor.getInstance().makeToken();
         request.getSession().setAttribute("goodsToken", goodsToken);
@@ -77,7 +77,7 @@ public class GoodsController {
     }
 
     //模糊查询商品
-    @RequestMapping(value = "/findShopByName.do")
+    @RequestMapping(value = "findShopByName.do")
     public String findByName(HttpServletRequest request, Model model,
                              @RequestParam String name) {
         try {
@@ -116,7 +116,7 @@ public class GoodsController {
     }
 
     //进入查看商品详情
-    @RequestMapping(value = "/selectById.do")
+    @RequestMapping(value = "selectById.do")
     public String selectById(@RequestParam int id,
                              HttpServletRequest request, Model model) {
         UserInformation userInformation = (UserInformation) request.getSession().getAttribute("userInformation");
@@ -154,7 +154,7 @@ public class GoodsController {
     }
 
     //进入到求购商城
-    @RequestMapping(value = "/require_mall.do")
+    @RequestMapping(value = "require_mall.do")
     public String requireMall(HttpServletRequest request, Model model) {
         UserInformation userInformation = (UserInformation) request.getSession().getAttribute("userInformation");
         if (StringUtils.getInstance().isNullOrEmpty(userInformation)) {
@@ -182,7 +182,7 @@ public class GoodsController {
     }
 
     //通过id查看商品的详情
-    @RequestMapping(value = "/findShopById.do")
+    @RequestMapping(value = "findShopById.do")
     @ResponseBody
     public ShopInformation findShopById(@RequestParam int id) {
 
@@ -190,7 +190,7 @@ public class GoodsController {
     }
 
     //通过分类选择商品
-    @RequestMapping(value = "/selectByCid.do")
+    @RequestMapping(value = "selectByCid.do")
     @ResponseBody
     public List<ShopInformation> selectByCid(@RequestParam(value = "cId") String cId) {
         PageHelper.offsetPage(0,3);
@@ -198,7 +198,7 @@ public class GoodsController {
     }
 
     //分页查询
-    @RequestMapping(value = "/selectByPageNum.do")
+    @RequestMapping(value = "selectByPageNum.do")
     @ResponseBody
     public PageInfo<ShopInformation> selectByPageNum(@RequestParam(value = "cId",required = false) String cId,@RequestParam(value = "pageNum",required = false) String pageNum) {
         System.out.println("分页查询："+"cId:"+cId+"pageNum:"+pageNum);

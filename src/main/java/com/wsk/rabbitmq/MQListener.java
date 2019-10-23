@@ -19,6 +19,7 @@ public class MQListener {
     @Autowired
     private SecKillGoodService secKillGoodService;
     public void listen(String msg) {
+        System.out.println("msg"+msg);
         SecKillCar secKillCar= JUtil.strToObject(msg,SecKillCar.class);
         System.out.println("秒杀队列开始处理消息： " + msg);
         System.out.println("收到对象："+secKillCar.toString());

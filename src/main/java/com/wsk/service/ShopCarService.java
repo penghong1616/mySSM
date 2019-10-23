@@ -23,4 +23,5 @@ public interface ShopCarService {
 //    List<ShopCar> selectByUid(int uid, int start);
 
     ShopCar selectByUid(int uid);
+    int delete(int userId,int shopcarId);
 }

@@ -14,6 +14,10 @@
             </list>
         </property>
     </bean>
+    <bean id="alipayTradePagePayRequest" class="com.alipay.api.request.AlipayTradePagePayRequest">
+        <property name="notifyUrl" value="http://62.234.148.80:8080/alipay/notify_url.jsp"></property>
+        <property name="returnUrl" value="http://62.234.148.80:8080/alipay/return_url.jsp"></property>
+    </bean>
     <!--<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">-->
         <!--<property name="messageConverters">-->
             <!--<list>-->

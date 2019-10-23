@@ -59,4 +59,9 @@ public class ShopCarServiceImpl implements ShopCarService {
     public ShopCar selectByUid(int uid) {
         return shopCarMapper.selectByUid(uid);
     }
+
+    @Override
+    public int delete(int userId, int shopcarId) {
+        return shopCarMapper.delete(userId,shopcarId);
+    }
 }

@@ -5,6 +5,8 @@ $(function () {
 //            按照下面这个方式添加新的元素，如果想在开头位置添加，就用first  before
 //            $('.table_content:last').after("<tr class='table_content'><td><span>11111</span></td></tr>");
     calSum();
+    var shop_array=[];
+    var shop_num=[];
     var which = 0;
     $('.shipping_address').click(function () {
         var id = $(this).attr('id');
@@ -64,15 +66,28 @@ $(function () {
     }
 //            计算总金额
     function calSum() {
+        shop_array=[];
+        shop_num=[];
         var sum = 0;
         $('.cart_content table tr.table_content').each(function () {
             var isCheck = $(this).children("td.input_checkbox").children("input").is(":checked");
+
             if(isCheck){
+
+                var shopid=$(this).children("td.input_checkbox").children("input").attr("value");
+                var shopnum=$(this).children("td.count").children("span.number").html();
+                //var shopnum = $(this).siblings(".number").html();
+                alert("shopid:"+shopid+'---'+shopnum);
+                shop_array.push(shopid);
+                shop_num.push(shopnum);
                 sum  +=  parseFloat($(this).children(".per_sum").children("span").html());
             }
         });
         sum = returnFloat(sum);
         $('.end_pay').children(".all_sum").children("span").html(sum);
+        $('#total_amount').attr("value",sum);
+        $('#shop_array').attr("value",shop_array);
+        $('#shop_num').attr("value",shop_num);
     }
 
     $('.deleteShopCar').click(function () {
@@ -101,5 +116,10 @@ $(function () {
                 }
             })
         }
-    })
+    });
+    $('.pay_button').click(function(){
+        alert("即将进行支付");
+        $('#pay').submit();
+    });
+
 });

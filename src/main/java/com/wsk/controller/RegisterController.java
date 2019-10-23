@@ -31,7 +31,7 @@ public class RegisterController {
     private UserInformationService userInformationService;
 
     //开始注册用户
-    @RequestMapping("/insertUser.do")
+    @RequestMapping("insertUser.do")
     @ResponseBody
     public BaseResponse insertUser(HttpServletRequest request,
                                    @RequestParam String password, @RequestParam String token) {

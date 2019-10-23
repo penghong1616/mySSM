@@ -38,7 +38,7 @@ public class HomeController {
     private ShopContextService shopContextService;
 
 
-    @RequestMapping(value = {"/", "/home.do"})
+    @RequestMapping(value = {"/", "home.do"})
     public String home(HttpServletRequest request, Model model) {
         UserInformation userInformation = (UserInformation) request.getSession().getAttribute("userInformation");
         // if user login,the session will have the "userInformation"
@@ -79,7 +79,7 @@ public class HomeController {
     }
 
     //进入商城
-    @RequestMapping(value = "/mall_page.do")
+    @RequestMapping(value = "mall_page.do")
     public String mallPage(HttpServletRequest request, Model model,
                            @RequestParam(value = "cId",required = false,defaultValue = "0") String cId,
                            @RequestParam(value = "pageNum",defaultValue = "1",required = false) String pageNum) {
@@ -142,28 +142,28 @@ public class HomeController {
     }
 
     //获得分类中的第一层
-    @RequestMapping(value = "/getAllKinds.do")
+    @RequestMapping(value = "getAllKinds.do")
     @ResponseBody
     public List<AllKinds> getAllKind() {
         return getAllKinds();
     }
 
     //获得分类中的第二层，通过第一层的id
-    @RequestMapping(value = "/getClassification.do", method = RequestMethod.POST)
+    @RequestMapping(value = "getClassification.do", method = RequestMethod.POST)
     @ResponseBody
     public List<Classification> getClassificationByAid(@RequestParam int id) {
         return selectAllClassification(id);
     }
 
     //通过第二层的id获取对应的第三层
-    @RequestMapping(value = "/getSpecific.do")
+    @RequestMapping(value = "getSpecific.do")
     @ResponseBody
     public List<Specific> getSpecificByCid(@RequestParam int id) {
         return selectAllSpecific(id);
     }
 
     //get the shops counts
-    @RequestMapping(value = "/getShopsCounts.do")
+    @RequestMapping(value = "getShopsCounts.do")
     @ResponseBody
     public Map getShopsCounts() {
         Map<String, Integer> map = new HashMap<>();
@@ -179,7 +179,7 @@ public class HomeController {
         return map;
     }
 
-    @RequestMapping(value = "/getShops.do")
+    @RequestMapping(value = "getShops.do")
     @ResponseBody
     public List getShops(@RequestParam int start) {
         List<ShopInformation> list = new ArrayList<>();

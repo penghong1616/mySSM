@@ -70,7 +70,7 @@ public class UserController {
     private ShopContextService shopContextService;
 
     //进入登录界面
-    @RequestMapping(value = "/login.do", method = RequestMethod.GET)
+    @RequestMapping(value = "login.do", method = RequestMethod.GET)
     public String login(HttpServletRequest request, Model model) {
         String token = TokenProccessor.getInstance().makeToken();
         log.info("进入登录界面，token为:" + token);
@@ -80,7 +80,7 @@ public class UserController {
     }
 
     //退出
-    @RequestMapping(value = "/logout.do")
+    @RequestMapping(value = "logout.do")
     public String logout(HttpServletRequest request) {
         try {
             request.getSession().removeAttribute("userInformation");
@@ -88,13 +88,13 @@ public class UserController {
             System.out.println("logout");
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/home.do";
+            return "redirect:home.do";
         }
         return "redirect:/";
     }
 
     //用户注册,拥有插入数据而已，没什么用的
-    @RequestMapping(value = "/registered.do", method = RequestMethod.POST)
+    @RequestMapping(value = "registered.do", method = RequestMethod.POST)
     public String registered(Model model,
                              @RequestParam String name, @RequestParam String phone, @RequestParam String password) {
         UserInformation userInformation = new UserInformation();
@@ -128,31 +128,31 @@ public class UserController {
 //    }
 
     //验证登录
-    @RequestMapping(value = "/login.do", method = RequestMethod.POST)
+    @RequestMapping(value = "login.do", method = RequestMethod.POST)
     public String login(HttpServletRequest request,
                         @RequestParam String phone, @RequestParam String password, @RequestParam String token) {
         String loginToken = (String) request.getSession().getAttribute("token");
         if (StringUtils.getInstance().isNullOrEmpty(phone) || StringUtils.getInstance().isNullOrEmpty(password)) {
-            return "redirect:/login.do";
+            return "redirect:login.do";
         }
         //防止重复提交
         if (StringUtils.getInstance().isNullOrEmpty(token) || !token.equals(loginToken)) {
-            return "redirect:/login.do";
+            return "redirect:login.do";
         }
         boolean b = getId(phone, password, request);
         //失败，不存在该手机号码
         if (!b) {
-            return "redirect:/login.do?msg=不存在该手机号码";
+            return "redirect:login.do?msg=不存在该手机号码";
         }
         return "redirect:/";
     }
 
     //查看用户基本信息
-    @RequestMapping(value = "/personal_info.do")
+    @RequestMapping(value = "personal_info.do")
     public String personalInfo(HttpServletRequest request, Model model) {
         UserInformation userInformation = (UserInformation) request.getSession().getAttribute("userInformation");
         if (StringUtils.getInstance().isNullOrEmpty(userInformation)) {
-            return "redirect:/login.do";
+            return "redirect:login.do";
         }
         String personalInfoToken = TokenProccessor.getInstance().makeToken();
         request.getSession().setAttribute("personalInfoToken", personalInfoToken);
@@ -163,7 +163,7 @@ public class UserController {
 
 
     //完善用户基本信息，认证
-    @RequestMapping(value = "/certification.do", method = RequestMethod.POST)
+    @RequestMapping(value = "certification.do", method = RequestMethod.POST)
     @ResponseBody
     public Map certification(HttpServletRequest request,
                              @RequestParam(required = false) String userName,
@@ -234,11 +234,11 @@ public class UserController {
     }
 
     //enter the publishUserWant.do.html,进入求购页面
-    @RequestMapping(value = "/require_product.do")
+    @RequestMapping(value = "require_product.do")
     public String enterPublishUserWant(HttpServletRequest request, Model model) {
         UserInformation userInformation = (UserInformation) request.getSession().getAttribute("userInformation");
         if (StringUtils.getInstance().isNullOrEmpty(userInformation)) {
-            return "redirect:/login.do";
+            return "redirect:login.do";
         }
         String error = request.getParameter("error");
         if (!StringUtils.getInstance().isNullOrEmpty(error)) {
@@ -252,12 +252,12 @@ public class UserController {
     }
 
     //修改求购商品
-    @RequestMapping(value = "/modified_require_product.do")
+    @RequestMapping(value = "modified_require_product.do")
     public String modifiedRequireProduct(HttpServletRequest request, Model model,
                                          @RequestParam int id) {
         UserInformation userInformation = (UserInformation) request.getSession().getAttribute("userInformation");
         if (StringUtils.getInstance().isNullOrEmpty(userInformation)) {
-            return "redirect:/login.do";
+            return "redirect:login.do";
         }
         String publishUserWantToken = TokenProccessor.getInstance().makeToken();
         request.getSession().setAttribute("publishUserWantToken", publishUserWantToken);
@@ -271,7 +271,7 @@ public class UserController {
     }
 
     //publish userWant,发布求购
-    @RequestMapping(value = "/publishUserWant.do")
+    @RequestMapping(value = "publishUserWant.do")
 //    @ResponseBody
     public String publishUserWant(HttpServletRequest request, Model model,
                                   @RequestParam String name,
@@ -284,7 +284,7 @@ public class UserController {
         if (StringUtils.getInstance().isNullOrEmpty(userInformation)) {
             //if the user no exits in the session,
 //            map.put("result", 2);
-            return "redirect:/login.do";
+            return "redirect:login.do";
         }
         String publishUserWantToke = (String) request.getSession().getAttribute("publishUserWantToken");
         if (StringUtils.getInstance().isNullOrEmpty(publishUserWantToke) || !publishUserWantToke.equals(token)) {
@@ -323,19 +323,19 @@ public class UserController {
         } catch (Exception e) {
             e.printStackTrace();
 //            map.put("result", result);
-            return "redirect:/require_product.do?error=2";
+            return "redirect:require_product.do?error=2";
         }
 //        map.put("result", result);
-        return "redirect:/my_require_product.do";
+        return "redirect:my_require_product.do";
     }
 
     //getUserWant,查看我的求购
-    @RequestMapping(value = {"/my_require_product.do", "/my_require_product_page.do"})
+    @RequestMapping(value = {"my_require_product.do", "/my_require_product_page.do"})
     public String getUserWant(HttpServletRequest request, Model model) {
         List<UserWant> list;
         UserInformation userInformation = (UserInformation) request.getSession().getAttribute("userInformation");
         if (StringUtils.getInstance().isNullOrEmpty(userInformation)) {
-            return "redirect:/login.do";
+            return "redirect:login.do";
         }
         try {
             int uid = (int) request.getSession().getAttribute("uid");
@@ -364,7 +364,7 @@ public class UserController {
     }
 
     //getUserWantCounts.do,查看求购总数
-    @RequestMapping(value = "/getUserWantCounts.do")
+    @RequestMapping(value = "getUserWantCounts.do")
     @ResponseBody
     public Map getUserWantCounts(HttpServletRequest request, Model model) {
         Map<String, Integer> map = new HashMap<>();
@@ -383,11 +383,11 @@ public class UserController {
     }
 
     //删除求购
-    @RequestMapping(value = "/deleteUserWant.do")
+    @RequestMapping(value = "deleteUserWant.do")
     public String deleteUserWant(HttpServletRequest request, @RequestParam int id) {
 //        Map<String, Integer> map = new HashMap<>();
         if (StringUtils.getInstance().isNullOrEmpty(request.getSession().getAttribute("userInformation"))) {
-            return "redirect:/login.do";
+            return "redirect:login.do";
         }
         UserWant userWant = new UserWant();
         userWant.setId(id);
@@ -405,7 +405,7 @@ public class UserController {
 
     //收藏
     //add the userCollection
-    @RequestMapping(value = "/addUserCollection.do")
+    @RequestMapping(value = "addUserCollection.do")
     @ResponseBody
     public BaseResponse addUserCollection(HttpServletRequest request, @RequestParam int sid) {
         //determine whether the user exits
@@ -427,7 +427,7 @@ public class UserController {
 
 
     // delete the userCollection
-    @RequestMapping(value = "/deleteUserCollection.do")
+    @RequestMapping(value = "deleteUserCollection.do")
     @ResponseBody
     public BaseResponse deleteUserCollection(HttpServletRequest request, @RequestParam int ucid) {
         if (StringUtils.getInstance().isNullOrEmpty(request.getSession().getAttribute("userInformation"))) {
@@ -449,7 +449,7 @@ public class UserController {
 
     //购物车开始。。。。。。。。。。。
     //getShopCarCounts.do
-    @RequestMapping(value = "/getShopCarCounts.do")
+    @RequestMapping(value = "getShopCarCounts.do")
     @ResponseBody
     public BaseResponse getShopCarCounts(HttpServletRequest request) {
         if (StringUtils.getInstance().isNullOrEmpty(request.getSession().getAttribute("userInformation"))) {
@@ -461,14 +461,14 @@ public class UserController {
     }
 
     //check the shopping cart,查看购物车
-    @RequestMapping(value = "/shopping_cart.do")
+    @RequestMapping(value = "shopping_cart.do")
     public String selectShopCar(HttpServletRequest request, Model model) {
         UserInformation userInformation = (UserInformation) request.getSession().getAttribute("userInformation");
         if (StringUtils.getInstance().isNullOrEmpty(userInformation)) {
             userInformation = new UserInformation();
             model.addAttribute("userInformation", userInformation);
 //            list.add(shopCar);
-            return "redirect:/login.do";
+            return "redirect:login.do";
         } else {
             model.addAttribute("userInformation", userInformation);
         }
@@ -515,7 +515,7 @@ public class UserController {
 //    }
 
     //添加到购物车
-    @RequestMapping(value = "/insertGoodsCar.do")
+    @RequestMapping(value = "insertGoodsCar.do")
     @ResponseBody
     public BaseResponse insertGoodsCar(HttpServletRequest request, @RequestParam int id) {
         UserInformation userInformation = (UserInformation) request.getSession().getAttribute("userInformation");
@@ -739,16 +739,16 @@ public class UserController {
             model.addAttribute("action", 2);
             model.addAttribute("sort", getSort(sort));
         }
-        return "redirect:/my_publish_product_page.do";
+        return "redirect:my_publish_product_page.do";
     }
 
     //从发布的商品直接跳转到修改商品
-    @RequestMapping(value = "/modifiedMyPublishProduct.do")
+    @RequestMapping(value = "modifiedMyPublishProduct.do")
     public String modifiedMyPublishProduct(HttpServletRequest request, Model model,
                                            @RequestParam int id) {
         UserInformation userInformation = (UserInformation) request.getSession().getAttribute("userInformation");
         if (StringUtils.getInstance().isNullOrEmpty(userInformation)) {
-            return "redirect:/login.do";
+            return "redirect:login.do";
         }
         String goodsToken = TokenProccessor.getInstance().makeToken();
         request.getSession().setAttribute("goodsToken", goodsToken);
@@ -762,7 +762,7 @@ public class UserController {
     }
 
     //发表留言
-    @RequestMapping(value = "/insertShopContext.do")
+    @RequestMapping(value = "insertShopContext.do")
     @ResponseBody
     public Map insertShopContext(@RequestParam int id, @RequestParam String context, @RequestParam String token,
                                  HttpServletRequest request) {
@@ -801,12 +801,12 @@ public class UserController {
     }
 
     //下架商品
-    @RequestMapping(value = "/deleteShop.do")
+    @RequestMapping(value = "deleteShop.do")
     public String deleteShop(HttpServletRequest request, Model model, @RequestParam int id) {
 //        Map<String, Integer> map = new HashMap<>();
         UserInformation userInformation = (UserInformation) request.getSession().getAttribute("userInformation");
         if (StringUtils.getInstance().isNullOrEmpty(userInformation)) {
-            return "redirect:/login.do";
+            return "redirect:login.do";
         } else {
             model.addAttribute("userInformation", userInformation);
         }
@@ -841,11 +841,11 @@ public class UserController {
     }
 
     //查看我的发布的商品
-    @RequestMapping(value = "/my_publish_product_page.do")
+    @RequestMapping(value = "my_publish_product_page.do")
     public String getReleaseShop(HttpServletRequest request, Model model) {
         UserInformation userInformation = (UserInformation) request.getSession().getAttribute("userInformation");
         if (StringUtils.getInstance().isNullOrEmpty(userInformation)) {
-            return "redirect:/login.do";
+            return "redirect:login.do";
         } else {
             model.addAttribute("userInformation", userInformation);
         }

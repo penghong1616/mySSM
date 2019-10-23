@@ -14,7 +14,7 @@
         <constructor-arg  name="password" value="123123"/>
         <constructor-arg  name="timeout" value="1000"/>
     </bean>
-    <bean id="poolConfig" class="org.apache.commons.pool2.impl.GenericObjectPoolConfig">
+    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
         <property name="maxTotal" value="10" />
         <property name="maxWaitMillis" value="1000" />
     </bean>

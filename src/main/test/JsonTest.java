@@ -10,5 +10,8 @@ public class JsonTest {
         secKIllGood.setCount(1);
         secKIllGood.setDisplay(1);
         System.out.println(JUtil.objToString(secKIllGood));
+        String str=JUtil.objToString(secKIllGood);
+        SecKillGood sec=(SecKillGood) JUtil.strToObject(str,Object.class);
+        System.out.println("id"+sec.getId());
     }
 }

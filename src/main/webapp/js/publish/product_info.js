@@ -36,7 +36,7 @@ $(function () {
     $('.buy_button').click(function () {
         var id = $(this).attr('value');
         $.ajax({
-            url:'/secKillGood',
+            url:'secKillGood',
             dataType:'JSON',
             type:'post',
             data:{id:id},

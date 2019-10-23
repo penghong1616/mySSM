@@ -21,4 +21,5 @@ public interface GoodsCarService {
     int updateByPrimaryKey(GoodsCar record);
 
     List<GoodsCar> selectByUid(int uid);
+    int delete(int userId,int dId);
 }

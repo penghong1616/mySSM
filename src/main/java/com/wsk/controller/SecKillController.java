@@ -33,7 +33,7 @@ public class SecKillController implements InitializingBean {
     @Autowired
     private RabbitTemplate rabbitTemplate;
     //跳转到秒杀页面
-    @RequestMapping("/secKill")
+    @RequestMapping("secKill")
     public String secKill(HttpServletRequest request,Model model){
         UserInformation userInformation = (UserInformation) request.getSession().getAttribute("userInformation");
         // if user login,the session will have the "userInformation"
@@ -46,14 +46,14 @@ public class SecKillController implements InitializingBean {
 
         return "secKill/secKill";
     }
-    @RequestMapping("/secKillAll")
+    @RequestMapping("secKillAll")
     @ResponseBody
     public PageInfo selectAll(@RequestParam(required = false,defaultValue = "0") String pageNum){
         PageHelper.offsetPage(Integer.parseInt(pageNum),4);
         PageInfo<SecKillGoodBean> pageInfo=new PageInfo<>(secKillGoodService.selectAll());
         return pageInfo;
     }
-    @RequestMapping("/selectSecKillById")
+    @RequestMapping("selectSecKillById")
     public String selectSecKillById( HttpServletRequest request,Model model,int id){
         UserInformation userInformation = (UserInformation) request.getSession().getAttribute("userInformation");
         // if user login,the session will have the "userInformation"
@@ -86,7 +86,7 @@ public class SecKillController implements InitializingBean {
         return "secKill/secKillGoodDetail";
     }
     //根据secId秒杀，返回JSON格式，根据状态码商品状态和是否已经秒杀成功
-    @RequestMapping("/secKillGood")
+    @RequestMapping("secKillGood")
     @ResponseBody
     public BaseResponse secKillGood(@RequestParam("id") int id,HttpServletRequest request){
         UserInformation userInformation = (UserInformation) request.getSession().getAttribute("userInformation");

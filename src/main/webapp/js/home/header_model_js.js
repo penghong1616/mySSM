@@ -86,7 +86,7 @@ $(function () {
     });
     $('.search_icon').click(function () {
         var name = $('.nav_search_input').val();
-        window.location.href = '/findShopByName.do?name=' + name;
+        window.location.href = 'findShopByName.do?name=' + name;
     });
 });
 jQuery(document).ready(function ($) {
@@ -107,7 +107,7 @@ jQuery(document).ready(function ($) {
     // }
     //监听关闭事件
     window.onbeforeunload =(function () {
-        window.location.href='/logout.do';
+        window.location.href='logout.do';
     });
     var host = window.location.host;
     var me = new Date().getTime();

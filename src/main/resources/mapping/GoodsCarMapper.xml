@@ -123,4 +123,9 @@
         display = #{display,jdbcType=INTEGER}
         where id = #{id,jdbcType=INTEGER}
     </update>
+    <delete id="delete" parameterType="java.lang.Integer">
+        delete from
+        <include refid="table"/>
+        where uid=#{param1} and sid=#{param2}
+    </delete>
 </mapper>

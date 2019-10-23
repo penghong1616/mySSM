@@ -10,9 +10,10 @@ import org.springframework.context.annotation.Configuration;
  *
  * 配置bean
  */
-@Configuration
 public class MQConfig {
-
+    static {
+        System.out.println("配置成功");
+    }
     public static final String SECKILL_QUEUE = "seckill.queue";
     public static final String SECKill_EXCHANGE="secKillExchange";
 

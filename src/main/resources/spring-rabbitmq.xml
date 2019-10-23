@@ -17,13 +17,19 @@
 
     <!-- 定义交换器，暂时不把Q绑定到交换机，在管理界面去绑定 -->
     <!--<rabbit:topic-exchange name="topicExchange" auto-declare="true" ></rabbit:topic-exchange>-->
-    <!-- <rabbit:direct-exchange name="directExchange" auto-declare="true" ></rabbit:direct-exchange>-->
+
     <!--<rabbit:fanout-exchange name="fanoutExchange" auto-declare="true" ></rabbit:fanout-exchange>-->
 
     <!-- 定义Rabbit模板，指定连接工厂以及定义exchange(exchange要和上面的一致) -->
     <!--<rabbit:template id="amqpTemplate" connection-factory="connectionFactory" exchange="topicExchange" />-->
-    <rabbit:template id="amqpTemplate" connection-factory="connectionFactory" exchange="secKillExchange" />
+    <rabbit:template id="rabbitTemplate" connection-factory="connectionFactory" exchange="secKillExchange" />
     <!--<rabbit:template id="amqpTemplate" connection-factory="connectionFactory" exchange="fanoutExchange" />-->
+    <rabbit:queue name="seckill.queue" auto-declare="true"/>
+    <rabbit:direct-exchange name="secKillExchange" auto-declare="true" >
+        <rabbit:bindings>
+            <rabbit:binding queue="seckill.queue" key="secKill"/>
+        </rabbit:bindings>
+    </rabbit:direct-exchange>
     <!-- 队列监听 -->
     <rabbit:listener-container connection-factory="connectionFactory">
         <rabbit:listener ref="MQlistener" method="listen" queue-names="seckill.queue" />

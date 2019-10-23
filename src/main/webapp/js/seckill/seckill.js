@@ -61,12 +61,12 @@ $(function () {
     });
     $('.detail_product_name').click(function () {
         var id = $(this).attr('value');
-        window.location.href='/selectById.do?id='+id;
+        window.location.href='selectById.do?id='+id;
     });
     function insertShopCar() {
         $('.detail_buy').click(function () {
             var id = $(this).attr('value');
-            window.location.href='/selectSecKillById?id='+id;
+            window.location.href='selectSecKillById?id='+id;
         });
     }
     function selectByCounts(pageNum) {
@@ -120,7 +120,7 @@ $(function () {
                 //进入查看商品的详情,通过id
                 $('.detail_product_name').click(function () {
                     var id = $(this).attr('value');
-                    window.location.href='/selectSecKillById?id='+id;
+                    window.location.href='selectSecKillById?id='+id;
                 });
                 //为分类标签和分页栏添加点击事件
                 $('.page ').click(function (){
@@ -174,7 +174,7 @@ $(function () {
     $('.buy_button').click(function () {
         var id = $(this).attr('value');
         $.ajax({
-            url:'/secKillGood',
+            url:'secKillGood',
             dataType:'JSON',
             type:'post',
             data:{id:id},

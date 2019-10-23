@@ -104,4 +104,7 @@
       uid = #{uid,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <delete id="delete">
+    delete from goodscar where uid=#{0} and sid=#{1}
+  </delete>
 </mapper>

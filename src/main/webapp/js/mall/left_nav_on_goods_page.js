@@ -61,13 +61,13 @@ $(function () {
     });
     $('.detail_product_name').click(function () {
         var id = $(this).attr('value');
-        window.location.href='/selectById.do?id='+id;
+        window.location.href='selectById.do?id='+id;
     });
     function insertShopCar() {
         $('.detail_buy').click(function () {
             var id = $(this).attr('value');
             $.ajax({
-                url:'/insertGoodsCar.do',
+                url:'insertGoodsCar.do',
                 dataType:'JSON',
                 type:'post',
                 data:{id:id},
