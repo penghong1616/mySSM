@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace命名空间,作用就是对sql进行分类化的管理,理解为sql隔离
+    注意:使用mapper代理开发时，namespace有特殊作用,namespace等于mapper接口地址
+ -->
+<mapper namespace="com.wsk.dao.OrderMapper">
+    <resultMap id="order" type="com.wsk.pojo.Order">
+        <id column="id" property="id"></id>
+        <result column="order_name" property="orderName"></result>
+        <result column="userid" property="userId"></result>
+        <result column="number" property="number"></result>
+        <result column="create_time" property="createTime"></result>
+        <result column="status" property="status"></result>
+        <collection property="orderDetails" ofType="com.wsk.pojo.OrderDetail" >
+            <id column="o_id" property="id" ></id>
+            <result column="order_id" property="orderId"></result>
+            <result column="shop_info_id" property="shopInfoId"></result>
+            <result column="shop_info_num" property="shopInfoNum"></result>
+        </collection>
+    </resultMap>
+    <!--将写回插入的主键-->
+<insert id="insertOrder" useGeneratedKeys="true" keyProperty="id" parameterType="com.wsk.pojo.Order">
+    insert into t_order(order_name,userid,number,create_time)
+    values (#{orderName},#{userId},#{number},now())
+</insert>
+    <select id="getOrderDetails" parameterType="int" resultMap="order" >
+            select t_order.id id,order_name,userid,number,create_time,status,orderdetail.id o_id,
+            order_id ,shop_info_id,shop_info_num  from t_order ,orderdetail
+            where t_order.id=#{id} and orderdetail.order_id=#{id}
+    </select>
+    <update id="updateStatus" >
+        update  t_order set status=#{1} where id=#{0}
+    </update>
+</mapper>

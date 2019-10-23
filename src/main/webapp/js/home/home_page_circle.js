@@ -113,7 +113,7 @@ $(function () {
     $('.buy').click(function () {
         var id = $(this).attr('value');
         $.ajax({
-            url:'/insertGoodsCar.do',
+            url:'insertGoodsCar.do',
             dataType:'JSON',
             type:'post',
             data:{id:id},

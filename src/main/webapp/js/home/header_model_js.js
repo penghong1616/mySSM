@@ -122,7 +122,7 @@ jQuery(document).ready(function ($) {
             // console.log(evnt.data);
             var result = evnt.data;
             if (result == "error"){
-                window.location.href='/logout.do';
+                window.location.href='/myssm/logout.do';
                 alert("该账号在其他地方登录了，请检查是否为本人操作，防止密码丢失！！！");
                 return;
             }
